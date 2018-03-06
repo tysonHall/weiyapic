@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>厦门帝欣网络科技有限公司尾牙晚宴</title>
+    <meta name="keywords" content="厦门帝欣网络科技有限公司尾牙晚宴">
+    <meta name="description" content="厦门帝欣网络科技有限公司尾牙晚宴">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="/res/css/reset.css" rel="stylesheet" type="text/css">
+    <link href="/res/css/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<!-- 首页 -->
+<div class="main part-1">
+    <div class="pic-1">
+        <img src="/res/images/pic1.png">
+    </div>
+    <div class="btn-entries ovf">
+        <a></a>
+        <a></a>
+        <a></a>
+    </div>
+</div>
+
+<!-- 签到 -->
+<div class="main part-2 ovf">
+    <div class="pic-3"><img src="/res/images/pic3.png"></div>
+    <div class="mainbox">
+        <div class="toptip"></div>
+        <div id="waterfall"></div>
+        <div class="tip">目前没有更多了...</div>
+    </div>
+    <div class="show-detail">
+        <div class="imgbox"><img src=""></div>
+        <button>查看原图（<span>32M</span>）</button>
+    </div>
+    <div class="show-origin">
+        <div class="imgbox"><img src=""></div>
+        <button><img src="/res/images/btnClose.png"></button>
+    </div>
+    <a class="btn-back"><img src="/res/images/btnBack.png"></a>
+</div>
+
+<!-- 晚宴 -->
+<div class="main part-3 ovf">
+    <div class="pic-3"><img src="/res/images/pic3.png"></div>
+    <div class="mainbox">
+        <div class="toptip"></div>
+        <div id="waterfall-2"></div>
+        <div class="tip">目前没有更多了...</div>
+    </div>
+    <div class="show-detail">
+        <div class="imgbox"><img src=""></div>
+        <button>查看原图（<span>32M</span>）</button>
+    </div>
+    <div class="show-origin">
+        <div class="imgbox"><img src=""></div>
+        <button><img src="/res/images/btnClose.png"></button>
+    </div>
+    <a class="btn-back"><img src="/res/images/btnBack.png"></a>
+</div>
+
+<!-- 视频 -->
+<div class="main part-4 ovf">
+    <div class="pic-3"><img src="/res/images/pic3.png"></div>
+    <div class="mainbox">
+        <div class="toptip"></div>
+        <div class="video-list">
+            <ul>
+            </ul>
+            <div class="tip">目前没有更多了...</div>
+        </div>
+    </div>
+    <a class="btn-back"><img src="/res/images/btnBack.png"></a>
+</div>
+
+
+<script src="/res/js/jquery-1.8.3.min.js"></script>
+<script src="/res/js/hammer.min.js"></script>
+<script src="/res/js/jquery.rotate.min.js"></script>
+<script>
+    var num = [0,0,0];
+    var maxid = [0,0,0];
+	var height0 = [0,0,0];
+	var height1 = [0,0,0];
+    var count = {$count};
+    var typeid = {$id};
+    var isloadingnew = false;
+    var isExited1 = false, isExited2 = false, isExited3 = false;
+	$('.btn-entries a:first-child').click(function () {
+		$('.part-1').hide();
+		$('.part-2').show();typeid = 1; table = 'image';
+		if (!isExited1) {
+			setTimeout(function () {
+				var script = document.createElement('script');
+				script.src = '/res/js/waterfall.js';
+				
+			   
+				document.body.appendChild(script);
+				isExited1 = true;
+			}, 100);
+		}
+	});
+	$('.btn-entries a:nth-child(2)').click(function () {
+		$('.part-1').hide();
+		$('.part-3').show();typeid = 2;table = 'image';
+		if (!isExited2) {
+			setTimeout(function () {
+				var script = document.createElement('script');
+				script.src = '/res/js/waterfall2.js';
+				
+				
+				document.body.appendChild(script);
+				isExited2 = true;
+			}, 100);
+		}
+	});
+	$('.btn-entries a:last-child').click(function () {
+		$('.part-1').hide();
+		$('.part-4').show();typeid = 3;table = 'video';
+		if (!isExited3) {
+			setTimeout(function () {
+				var script = document.createElement('script');
+				script.src = '/res/js/video.js';
+				
+				
+				document.body.appendChild(script);
+				isExited3 = true;
+			}, 100);
+		}
+	});
+
+
+	$('.btn-back').click(function () {
+		$('.part-2,.part-3,.part-4').hide();
+		$('.part-4 video').each(function(){ $(this)[0].pause();})
+		$('.part-1').show();
+	});
+    //字节转兆字节
+    function byte_to_mbyto(mybyte)
+    {
+        mybyte = mybyte / 1048576;
+        return mybyte.toFixed(2);
+    }
+
+</script>
+</body>
+</html>

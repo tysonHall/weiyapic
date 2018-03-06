@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<!-- Head -->
+<head>
+{include file="public/head" /}
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+
+    <!--End Email Templates-->
+    <!--Success Modal Templates-->
+    <div id="modal-success" class="modal modal-message modal-success fade" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="glyphicon glyphicon-check"></i>
+                </div>
+                <div class="modal-title">Success</div>
+
+                <div class="modal-body">{$msg}</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                </div>
+            </div> <!-- / .modal-content -->
+        </div> <!-- / .modal-dialog -->
+    </div>
+    <!--End Success Modal Templates-->
+
+    <!--End Modal Templates-->
+    {include file="public/js" /}
+
+    <script type="text/javascript">
+    	$(function(){
+    		$('#modal-success').modal('toggle').on('hidden.bs.modal',function(e){
+	     		{if $url == ''}
+	     			history.go(-1);
+	     		{else}
+	     			window.location.href = "{$url}";
+	     		{/if}		
+    		});
+    		{if $url == ''}
+    			setTimeout(function(){
+    				history.go(-1);
+    			},{$wait}*1000);
+    		{else}
+    			setTimeout(function(){
+    				window.location.href="{$url}";
+    			},{$wait}*1000);
+    		{/if}
+    	})
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        {volist name="sidebar" id="item"}
+                        <li>
+                            <a href="{if !empty($item["name"])}{:url($item['name'])}{else}#{/if}"><i class="fa {if !empty($item['icon'])}{$item['icon']}{else}fa-files-o{/if} fa-fw"></i> {$item['title']}<span class="fa arrow"></span></a>
+                            {if isset($item['child'])}
+                            <ul class="nav nav-second-level">
+                                {volist id="level2" name="item['child']"}
+                                <li>
+                                    <a href="{if !empty($level2["name"])}{:url($level2['name'])}{else}#{/if}"><i class="fa {if !empty($level2['icon'])}{$level2['icon']}{else}fa-files-o{/if} fa-fw"></i>{$level2['title']}{present name="$level2['child']"}<span class="fa arrow"></span>{/present}</a>
+                                    {if isset($level2['child'])}
+                                    <ul class="nav nav-third-level">
+                                        {volist id="level3" name="$level2['child']"}
+                                        <li>
+                                            <a href="{if !empty($level3["name"])}{:url($level3['name'])}{else}#{/if}"><i class="fa {if !empty($level3['icon'])}{$level3['icon']}{else}fa-files-o{/if} fa-fw"></i>{$level3['title']}</a>
+                                            
+                                        </li>
+                                        {/volist}
+                                    </ul>
+                                    {/if}
+                                </li>
+                                {/volist}
+                            </ul>
+                            {/if}
+                        </li>
+                        {/volist}
+                        
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>

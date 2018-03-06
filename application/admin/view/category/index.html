@@ -1,0 +1,206 @@
+{extend name="base/common" /} 
+{block name="content"}
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">{$title}</h3>
+    </div>
+</div>
+<div style="margin:10px 0;">
+<button type="button" class="btn btn-success" onclick="load_modal_data(-1)"> <i class="fa fa-plus"></i> 添加</button>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="flip-scroll">
+                    <table class="table table-bordered table-hover">                    
+                        <thead class="">
+                            <tr>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">名称</th>
+                                <th class="text-center">频道</th> 
+                                <th class="text-center">状态</th> 
+                                <th class="text-center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {volist name="data" id="vo"}
+                              <tr>
+                                <td align="center">{$vo.id}</td>
+                                <td align="center">{$vo.title}【<span class='red'>{$vo.id|get_category_num=###,$vo.channel}</span>】</td>
+                                <td align="center">{$vo.channel|channel_to_str}</td>
+                                <td align="center"><button type="button" onclick="switch_data({$vo.id},this)" class="btn btn-xs {eq name='$vo.state' value='1'}btn-success{else /}btn-danger{/eq}">已{$vo.state|get_category_state}</button></td>
+                                <td align="center">
+                                    <a href="javascript:;" onclick="upload_pic({$vo.state},{$vo.id},{$vo.channel})" class="btn btn-success btn-sm shiny">
+                                        <i class="glyphicon glyphicon-upload"></i></a> 
+                                    <a href="javascript:;" onclick="load_modal_data({$vo.id})" class="btn btn-primary btn-sm shiny">
+                                        <i class="fa fa-edit"></i></a>
+                                    <a href="#" onclick="warning('确实要删除吗', '{:url('del',['id'=>$vo.id])}')" class="btn btn-danger btn-sm shiny">
+                                        <i class="fa fa-trash-o"></i></a>                                        
+                                </td>
+                            </tr>
+                            {/volist}
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="groupmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel"><span id="gmodal_rname"></span>添加分类</h4>
+        </div>
+        <div class="modal-body form-horizontal">
+            <div class="form-group">
+                <label for="modal-title" class="col-sm-2 control-label no-padding-right">名称</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" id="modal-title" placeholder=""  value="">
+                </div>
+                <p class="help-block col-sm-2 red">* 必填</p>
+            </div>           
+
+            <div class="form-group">
+                <label for="modal-channel" class="col-sm-2 control-label no-padding-right">频道</label>
+                <div class="col-sm-4">
+                    <select class="form-control" id="modal-channel">
+                         {volist name=":set_channel()" id="vo"}
+                         <option value="{$key}">{$vo}</option>
+                         {/volist}
+                    </select>
+                </div>
+                <p class="help-block col-sm-5 red">* 必填 图集只能上传图片,视频只能上传视频</p>
+            </div>           
+        </div>
+        <input type="hidden" class="form-control" id="modal-id" placeholder="" value="">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" onclick="save_items()">保存</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        </div>
+    </div>
+  </div>
+</div>
+{/block}
+{block name="js"}
+<script type="text/javascript">
+    function warning(info, url){
+        if(window.confirm(info)){
+            window.location.href = url;
+        }
+    }
+    function load_modal_data(id){
+        $('#groupmodal').modal('show');
+        $("#modal-title").val('');
+        // $("#modal-channel").val('');
+        $("#myModalLabel").html('添加分类'); 
+        if( id >0){
+            $.ajax({
+                url:"{:url('edit')}?id="+id,
+                type:'GET',
+                dataType:'json',
+                success:function(res){
+                    res=$.parseJSON(res);
+                    $('#modal-id').val(res.id);
+                    $('#modal-title').val(res.title); 
+                    $('#modal-channel').val(res.channel); 
+                    $("#myModalLabel").html('修改分类');  
+                },
+                error:function(){
+                    alert('获取数据失败！');
+                }
+            }); 
+        }
+        
+    }
+    function save_items()
+    {
+        var title = $('#modal-title').val();
+        var channel = $('#modal-channel').val();
+        var id=$('#modal-id').val();
+        if(title == '')
+        {
+            alert('你没有填写分类名称');
+            $('#modal-title').focus();
+            return false;
+        }
+        
+        if(channel == '' || channel == null)
+        {
+            alert('你没选择频道');
+            $('#modal-channel').focus();
+            return false;
+        }
+
+        if( id > 0){
+
+            $.post("{:url('edit')}", {'id':id,'title':title,'make':'do','channel':channel},function(res){
+                res=$.parseJSON(res);
+                if(res.state==1){
+                    alert('修改成功');
+                }else{
+                    alert('修改失败');
+                }
+                $('#groupmodal').modal('hide');
+                window.location.href=window.location.href; 
+            });
+
+        }else{
+            $.post("{:url('add')}", {'title':title,'channel':channel},function(res){
+                res=$.parseJSON(res);
+                if(res.state==1){
+                    alert('添加成功');
+                }else{
+                    alert('添加失败');
+                }
+                $('#groupmodal').modal('hide');
+                window.location.href=window.location.href; 
+            });
+        }
+    }
+
+    function switch_data(id,obj)
+    {
+        var obj = $(obj);
+        var url = "/admin/category/switchstate";
+        var msg1 = '已禁用';
+        var msg2 = '已开启';
+        $.post(url,{id:id},function(res){
+              res=$.parseJSON(res);
+              if(res.code == 2){
+                 obj.removeClass('btn-danger');
+                 obj.addClass('btn-success');
+                 obj.html(msg2);
+                 self.location.reload()
+              }else if(res.code == 1){
+                 obj.removeClass('btn-success');
+                 obj.addClass('btn-danger');
+                 obj.html(msg1);
+                 self.location.reload()
+              }else{
+                alert('操作失败');
+              }      
+
+        },'json'); 
+    }
+
+    function upload_pic(state,id,channel)
+    {
+        if(state == 2) {
+            alert('无法上传');
+            return ;
+        }
+
+        if(channel == 1){
+            window.location.href = "/admin/picture/add?typeid="+id;
+        }else{
+            window.location.href = "/admin/video/add?typeid="+id;
+        }
+    }
+
+</script>
+{/block}

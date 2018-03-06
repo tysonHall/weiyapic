@@ -1,0 +1,68 @@
+{extend name="base/common" /} 
+{block name="content"}
+<div class="row">
+    <div class="col-lg-12">
+        <h3 class="page-header">编辑用户</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="widget">
+            <div class="widget-body">
+                <div id="horizontal-form">
+                    <form class="form-horizontal" role="form" action="" method="post">
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label no-padding-right">用户名</label>
+                            <label class="col-sm-6  help-block">
+                                {$data.username}
+                                <input type="hidden" class="form-control" id="username"  name="username" value="{$data.username}">
+                            </label>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label for="oldPassword" class="col-sm-2 control-label no-padding-right">旧密码</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" id="oldPassword" placeholder="不改密请留空" name="oldPassword" value="">
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="col-sm-2 control-label no-padding-right">新密码</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" id="password" placeholder="密码长度不小于6" name="password" value="">
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group">
+                            <label for="repassword" class="col-sm-2 control-label no-padding-right">确认密码</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" id="repassword" placeholder="密码长度不小于6" name="repassword" value="">
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group">
+                            <label for="group_id" class="col-sm-2 control-label no-padding-right">用户角色</label>
+                            <div class="col-sm-6">
+                                <select name="group_id" class="form-control" style="width: 100%;">
+                                    {volist name="authGroupData" id="vo"}
+                                    <option value="{$vo.id}" {if condition="$vo.id eq $data.group_id"}selected{/if}>{$vo.title}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </div>  
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type="hidden" name="id" value="{$data.id}">
+                                <button type="submit" class="btn btn-primary">保存信息</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

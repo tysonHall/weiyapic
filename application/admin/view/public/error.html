@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<!-- Head -->
+<head>
+{include file="public/head" /}
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+
+    <!--Danger Modal Templates-->
+    <div id="modal-danger" class="modal modal-message modal-danger fade" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="glyphicon glyphicon-fire"></i>
+                </div>
+                <div class="modal-title">Error</div>
+
+                <div class="modal-body">{$msg}</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">OK</button>
+                </div>
+            </div> <!-- / .modal-content -->
+        </div> <!-- / .modal-dialog -->
+    </div>
+    <!--End Danger Modal Templates-->
+
+    <!--End Modal Templates-->
+    {include file="public/js" /}
+
+    <script type="text/javascript">
+    	$(function(){
+    		$('#modal-danger').modal('toggle').on('hidden.bs.modal',function(e){
+	     		{if $url == ''}
+	     			history.go(-1);
+	     		{else}
+	     			window.location.href = "{$url}";
+	     		{/if}		
+    		});
+    		{if $url == ''}
+    			setTimeout(function(){
+    				history.go(-1);
+    			},{$wait}*1000);
+    		{else}
+    			setTimeout(function(){
+    				window.location.href="{$url}";
+    			},{$wait}*1000);
+    		{/if}
+    	})
+    </script>
+</body>
+</html>

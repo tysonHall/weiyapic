@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   {include file="public/head" /}
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">请登录</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" action=''  method="post">
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="请输入用户名" name="username" type="text" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" placeholder="请输入密码" name="password" type="password" value="">
+                                </div>
+                                <div class="form-group" style="height:50px;">
+                                    <div class="col-md-4 row">
+                                        <input name="captcha" class="form-control" type="text" placeholder="验证码">
+                                    </div>                                     
+                                    
+                                    <img id="code_img" class="col-md-5"  onclick="changeCode()" src="{:captcha_src()}" alt="captcha" />
+                                    <a  onclick="changeCode()">看不清?</a>                                                                                       
+                                </div>
+                                <!-- Change this to a button or input when using this as a form -->
+                                <div class="form-group"> 
+                                    <button type="submit"  class="btn btn-lg btn-success btn-block">登录</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="__ADMIN_PUBLIC__/vendor/jquery/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="__ADMIN_PUBLIC__/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="__ADMIN_PUBLIC__/vendor/metisMenu/metisMenu.min.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="__ADMIN_PUBLIC__/dist/js/sb-admin-2.js"></script>
+    <script>
+        
+        function changeCode(){
+          var that = document.getElementById('code_img');
+          that.src = '/captcha.html?id=' + Math.floor(Math.random()*100000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,183 @@
+{extend name="base/common" /} 
+{block name="content"}
+<div class="row">
+    <h3 class="col-lg-6 col-sm-6 col-xs-6 text-left"><a href="{:url('index')}">{$webtitle}</a></h3>
+    <h3 class="col-lg-6 col-sm-6 col-xs-6 text-right"><a href="{:url('index',['userid'=>$Think.session.user_auth.uid])}">我上传的视频</a></h3>
+</div>
+<br>
+<div class="row">
+    <p class="col-lg-12 col-sm-12 col-xs-12 text-center">
+        <a href="{:url('add')}" class="btn btn-info btn-lg btn-block"> <i class="glyphicon glyphicon-film"></i> 上传视频</a>
+    </p>
+</div>
+<br>
+<div style="margin-bottom: 5px;">
+<a type="javascript:;" class="btn btn-sm btn-danger btn-addon col-lg-3 col-sm-3 col-xs-3 text-left" id="del"> <i class="fa fa-trash-o"></i> 删除选中
+</a>
+<label class="text-warning col-lg-9 col-sm-9 col-xs-9 text-right">{$data->total()}个视频</label>
+<div style="clear: both;;"></div>
+</div>
+<div class="row">
+    <div class="col-lg-12 col-sm-12 col-xs-12">
+        <div class="widget">
+            <div class="widget-body">
+                <div class="flip-scroll">
+                    <table class="table table-bordered table-hover">                    
+                        <thead class="">
+                            <tr>
+                                <th width="22"><input type="checkbox" id="checkall"></th>
+                                <th class="text-center">缩略图</th>                                
+                                <th class="text-center">分类</th>
+                                <th class="text-center">大小</th>
+                                <th class="text-center">上传者</th>
+                                <th class="text-center">上传时间</th>
+                                <th class="text-center">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {volist name="data" id="vo"}
+                              <tr>
+                                <td align="center" style="width:2%"><input type="checkbox" class="checkbox" pid="{$vo.id}"></td>
+                                <td align="center" onclick="show_video('{$vo.videourl}')">{$vo.imageurl|image_to_url}</td>
+                                <td align="center">{$vo.typeid|get_category_by_id=$vo.channel,###}</td>
+                                <td align="center">{$vo.size|size_b_to_mb}M</td>
+                                <td align="center">{$vo.username}</td>
+                                <td align="center">{$vo.addtime|date='m-d H:i',###}</td>
+                                <td align="center">
+                                    <!-- <a href="#" onclick="show_video('{$vo.videourl}')" class="btn btn-info btn-sm">
+                                        <i class="glyphicon glyphicon-play-circle"></i></a> -->
+                                    <a href="#" onclick="warning('确实要删除吗', '{:url('del',['id'=>$vo.id])}')" class="btn btn-danger btn-sm shiny">
+                                        <i class="fa fa-trash-o"></i></a>                                        
+                                </td>
+                            </tr>
+                            {/volist}
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                {$data->render()}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="videomodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document" style="min-width:100px; min-height: 100px; max-height: 400px; max-width: 400px;">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-content" style="text-align: center;">
+    <video id="video1" src="" controls="controls" style="min-width:100px; min-height: 100px; max-height: 400px; max-width: 400px;">
+    您的浏览器不支持 video 标签。
+    </video>
+    </div>
+  </div>
+</div>
+<div class="modal fade bs-example-modal-lg" id="groupmodal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"><span id="gmodal_rname"></span>消息提示</h4>
+        </div>
+        <div class="modal-body form-horizontal text-center">
+            <span id="tip_content"></span>
+        </div>
+        <div class="modal-footer">
+            <a href="javascript:;" class="btn btn-primary">确定</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        </div>
+    </div>
+  </div>
+</div>
+{/block}
+{block name="js"}
+<script type="text/javascript">
+function show_video(videourl)
+{
+    $('#videomodal').modal('show');
+    $('#video1').attr('src', videourl);
+}
+function warning(info, url){
+    $('#groupmodal2').modal('show');
+    $('.modal-footer').children('a:first').unbind();
+    $('#tip_content').html('你确定要删除吗');
+	$('.modal-footer').children('a:first').click(function(){
+        $('#groupmodal2').modal('hide');
+    });
+    $('.modal-footer').children('a:first').attr('href',url);
+}
+
+$(function(){
+    $("#checkall").click(function(){
+        if($("#checkall").prop("checked")){
+            $(":checkbox").prop("checked",true);
+        }else{
+            $(":checkbox").prop("checked",false);
+        }
+
+    });
+    var arr=[];
+    var ids='';
+   
+    $("#del").click(function(){
+        getselect();
+        if(ids == ''){
+            $('#groupmodal2').modal('show');
+            $('#tip_content').html('你还没选择要删除的照片');
+            $('.modal-footer').children('a:first').unbind();
+            $('.modal-footer').children('a:first').click(function(){
+                window.location.reload();
+            });
+
+        }
+        if(arr!=''){
+            $('#groupmodal2').modal('show');
+            $('.modal-footer').children('a:first').unbind();
+            $('#tip_content').html("确定要删除"+ids);
+            $('.modal-footer').children('a:first').click(function(){
+                $.ajax({
+                    url:"{:url('del')}?type=ajax&id="+ids,
+                    type:"get",
+                    success:function(res){
+                        res=$.parseJSON(res);
+                        if(res.state==1){
+                             $('#tip_content').html("删除成功");
+                        }else{
+                             $('#tip_content').html("你无权删除");
+                        }
+                        $('.modal-footer').children('a:first').unbind();                       
+                        $('.modal-footer').children('a:first').click(function(){
+                            window.location.reload();
+                        });
+                        $('.modal-footer').children('button:first').click(function(){
+                            window.location.reload();
+                        });
+                    },
+                    error:function(){
+                        $('#tip_content').html("删除失败");
+                    }
+                });
+            });
+            
+        }            
+    });
+
+    function getselect(){
+        arr=[];
+        ids='';
+        $('tbody .checkbox').each(function(){
+           
+            if($(this).prop("checked")){
+                pid=$(this).attr('pid');
+                arr.push(pid);
+            }
+        });
+        ids=arr.join(',');
+    }
+    
+     // $('.datetimepicker').datetimepicker(option);
+
+});
+</script>
+{/block}

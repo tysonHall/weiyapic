@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{include file="public/head" /}
+{block name="css"}{/block}
+</head>
+
+<body>
+
+    <div id="wrapper">
+    
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <!-- /.navbar-header -->
+            {include file="public/navbar" /}
+            <!-- /.navbar-top-links -->
+            {include file="public/sidebar" /}            
+            <!-- /.navbar-static-side -->
+        </nav>
+        <!-- Page Content -->
+        <div id="page-wrapper">
+        {block name="content"}{/block}
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+   
+    {include file="public/js" /}
+    {block name="js"}
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script type="text/javascript">
+        function warning(info, url){
+            if(window.confirm(info)){
+                window.location.href = url;
+            }
+        }
+    </script>
+    {/block}    
+
+</body>
+</html>

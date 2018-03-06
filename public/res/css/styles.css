@@ -1,0 +1,102 @@
+html,body{ height: 100%; background: url('/res/images/bg.jpg') repeat-y fixed;}
+.topdiv{width: 100%; background: url('/res/images/pic3.png') repeat-y fixed;}
+.fl{ float: left;}
+.fr{ float: right;}
+.ovf{ overflow: hidden;}
+
+img{ display: block;max-width: 100%;max-height: 70%;}
+
+.bg{ position: fixed; top: 0; left: 0; width:100%; max-height:100%; z-index: -1;}
+
+.pic-1{ width: 100%; margin: 0 auto; background: url("../images/icon.png") no-repeat 49% 97%/ 161% auto;}
+.pic-1 img{ width: 90%; margin: 0 auto; opacity: 0;}
+
+.btn-entries{ width: 90%; margin: 0 auto;}
+.btn-entries a{ float: left;width: 28vw; height: 32vw; margin-right: 3%; background: url("../images/1.png") no-repeat 100% 0/ 532vw auto; /*-webkit-animation: step1 steps(19) .8s; -moz-animation: step1 steps(19) .8s; animation: step1 steps(19) .8s;*/}
+.btn-entries a:nth-child(2){ background-image: url("../images/2.png"); animation-delay: .8s;}
+.btn-entries a:last-child{ margin-right: 0; background-image: url("../images/3.png"); animation-delay: 1.6s;}
+
+.toptip {margin-top: 0;color: #f0f0f0;text-align: center;font-size: 14px;position: relative;z-index: 99;}
+.pic-3{ position: fixed; top: 0; left: 0; background: url("../images/icon.png") no-repeat 46% 108%/ 110% auto; -webkit-animation: scaleIn .5s linear forwards; -moz-animation: scaleIn .5s linear forwards; animation: scaleIn .5s linear forwards; -webkit-transform: scale(2); -moz-transform: scale(2); transform: scale(2);}
+.pic-3 img{ opacity: 0;}
+#waterfall, #waterfall-2{ position: relative; width: 98%; margin: 10px auto; -webkit-transform: translateY(-80vh); -moz-transform: translateY(-80vh); transform: translateY(-80vh); -webkit-animation: slideUp .5s linear forwards .6s; -moz-animation: slideUp .5s linear forwards .6s; animation: slideUp .5s linear forwards .6s; opacity: 0;}
+#waterfall .box,#waterfall-2 .box{ position: absolute; width: 49%; border: 1px solid #6e77a2;}
+#waterfall .box img, #waterfall-2 .box img{ -webkit-animation: fadeIn .3s linear forwards .3s; -moz-animation: fadeIn .3s linear forwards .3s; animation: fadeIn .3s linear forwards .3s; opacity: 0; cursor: pointer;}
+.tip{ margin-top: -5%; padding: 5% 0; color: #728bff; text-align: center; font-size: 14px; display: none;}
+.show-detail{ position: fixed; top: 0; left: 0; bottom: 0; right: 0; background: rgba(0, 0, 0, .7); z-index: 999; display: none;}
+body.ovf .show-detail{ display: block;}
+.show-detail img{ position: absolute; top: 0; left: 0; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); transform: translate(-50%, -50%); -webkit-animation: fadeIn .5s ease-in-out forwards; -moz-animation: fadeIn .5s ease-in-out forwards; animation: fadeIn .5s ease-in-out forwards; opacity: 0;}
+.show-detail div{ width: 100%; height: 100%;}
+.show-detail button{ position: absolute; bottom: 2%; left: 50%; padding: 5px 10px; background: rgba(0,0,0,.2); border: 1px solid #b2b2b2; color: #b2b2b2; -webkit-transform: translateX(-50%); -moz-transform: translateX(-50%); transform: translateX(-50%);}
+.show-origin{ position: fixed; left: 0; top: 0; bottom: 0; right: 0; background: rgba(0, 0, 0, .7); display: none; z-index: 999;}
+.show-origin img{ cursor: pointer; position: absolute; left: 0; top: 0; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); transform: translate(-50%, -50%); -webkit-animation: fadeIn .5s ease-in-out forwards; -moz-animation: fadeIn .5s ease-in-out forwards; animation: fadeIn .5s ease-in-out forwards; opacity: 0;}
+.show-origin button{ position: absolute; bottom: 2%; left: 50%; width: 16vw; height: 16vw; background: none; -webkit-transform: translateX(-50%); -moz-transform: translateX(-50%); transform: translateX(-50%); border: none; padding: 0;}
+.show-origin button img{ left: 50%; top: 50%;}
+.get_new_btn{display:block; margin:auto; width: 96%; border-radius: 4px; background-color: rgba(187, 189, 255, 0.4);}
+
+.video-list{ position: relative; width: 90%; margin: 0 auto; z-index: 99;}
+.video-list li{ position: relative; margin-bottom: 5%;}
+.video-list video{ display: block; width: 100%; max-height: 100vw;}
+.video-list li.on{ position: fixed; top: 0; left: 0; bottom: 0; right: 0; margin-bottom: 0; z-index: 99;}
+.video-list li.on video{ position: absolute; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); transform: translate(-50%, -50%);}
+.shadow{ position: absolute; top: 0; left: 0; bottom: 0; right: 0; margin-bottom: 0; background: rgba(0,0,0,.7); display: none;}
+
+.btn-back{ position: fixed; top: 3%; left: 1%; width: 15vw; z-index: 99;}
+
+@-webkit-keyframes fadeIn {
+    from{ opacity: 0;}
+    to{ opacity: 1;}
+}
+@-moz-keyframes fadeIn {
+    from{ opacity: 0;}
+    to{ opacity: 1;}
+}
+@keyframes fadeIn {
+    from{ opacity: 0;}
+    to{ opacity: 1;}
+}
+
+@-webkit-keyframes slideUp {
+    from{-webkit-transform: translateY(80vh); opacity: 0;}
+    to{-webkit-transform: translateY(0); opacity: 1;}
+}
+@-moz-keyframes slideUp {
+    from{-moz-transform: translateY(80vh); opacity: 0;}
+    to{-moz-transform: translateY(0); opacity: 1;}
+}
+@keyframes slideUp {
+    from{transform: translateY(80vh); opacity: 0;}
+    to{transform: translateY(0); opacity: 1;}
+}
+
+
+@-webkit-keyframes scaleIn {
+    from{ -webkit-transform: scale(2);}
+    to{ -webkit-transform: scale(1);}
+}
+@-moz-keyframes scaleIn {
+    from{ -moz-transform: scale(2);}
+    to{ -moz-transform: scale(1);}
+}
+@keyframes scaleIn {
+    from{ transform: scale(2);}
+    to{ transform: scale(1);}
+}
+
+@-webkit-keyframes step1 {
+    from{ background-position: 0 0;}
+    99.99%{ background-position: -1891px 0;}
+    to{ background-position: 100% 0;}
+}
+@-moz-keyframes step1 {
+    from{ background-position: 0 0;}
+    99.99%{ background-position: -1891px 0;}
+    to{ background-position: 100% 0;}
+}
+@keyframes step1 {
+    from{ background-position: 0 0;}
+    to{ background-position: -532vw 0;}
+}
+
+
+.part-2, .part-3, .part-4{ display: none; min-height: 100%;}
